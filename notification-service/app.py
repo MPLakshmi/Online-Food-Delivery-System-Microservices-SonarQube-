@@ -26,13 +26,7 @@ EMAIL_PASSWORD = "MyHardcodedEmailPassword@2024"    # Critical security issue
 # ============================================================
 
 
-# CODE SMELL: Hardcoded SMS gateway API key
-SMS_API_KEY = "LIVE_SMS_KEY_abc123xyz789_HARDCODED"
-SMS_SENDER_ID = "FOODDL"
 
-# CODE SMELL: Hardcoded Firebase/Push notification key
-FIREBASE_SERVER_KEY = "AAAABCDEFGHijklmnop:APA91bHardcodedFirebaseKey_NeverDoThis"
-FIREBASE_PROJECT_ID = "food-delivery-prod-12345"
 
 # CODE SMELL: Module-level DB
 client = MongoClient(MONGO_URI)
