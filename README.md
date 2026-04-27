@@ -170,10 +170,6 @@ Wait ~2 minutes, then open: **http://localhost:9000**
 
 Default credentials: `admin` / `admin` (you will be prompted to change the password on first login)
 
-**SonarQube Login Page:**
-
-![SonarQube Login Page](screenshots/SonarQube-1.png)
-
 ### 2. Generate a SonarQube Token
 
 1. Click your avatar (top right) → **My Account**
@@ -184,7 +180,6 @@ Default credentials: `admin` / `admin` (you will be prompted to change the passw
 
 **Token Generation — My Account → Security → Generate Tokens:**
 
-![SonarQube Token Generation](screenshots/SonarQube-1.png)
 
 ### 3. Update sonar-project.properties
 
@@ -232,8 +227,6 @@ docker-compose ps
 Open the application: **http://localhost:3000**
 
 **FoodExpress Login Page — http://localhost:3000:**
-
-![FoodExpress Login Page](screenshots/FoodService-App.png)
 
 ---
 
