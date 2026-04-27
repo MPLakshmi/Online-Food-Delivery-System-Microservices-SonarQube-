@@ -187,15 +187,9 @@ Wait ~2 minutes, then open: **http://localhost:9000**
 
 Default credentials: `admin` / `admin` (you will be prompted to change the password on first login)
 
-**Screenshot — SonarQube Login Page:**
-```
-┌────────────────────────────────────────────┐
-│         SonarQube  9.9 LTS                 │
-│   Login: admin    Password: admin           │
-│         [Log in]                           │
-└────────────────────────────────────────────┘
-  URL: http://localhost:9000
-```
+**SonarQube Login Page:**
+
+![SonarQube Login Page](screenshots/01-sonarqube-login.png)
 
 ### 2. Generate a SonarQube Token
 
@@ -205,17 +199,9 @@ Default credentials: `admin` / `admin` (you will be prompted to change the passw
 4. Click **Generate**
 5. Copy the token — it looks like: `sqa_f979d8aeb30eb97b6020f05c5b199ab81a847ce6`
 
-**Screenshot — Token Generation:**
-```
-My Account > Security > Generate Tokens
-┌──────────────────────────────────────────────────────────┐
-│  Name: food-delivery-token     Type: User Token           │
-│  [Generate]                                              │
-│                                                          │
-│  ✓ sqa_f979d8aeb30eb97b6020f05c5b199ab81a847ce6          │
-│  Make sure you copy it now — it won't be shown again.    │
-└──────────────────────────────────────────────────────────┘
-```
+**Token Generation — My Account → Security → Generate Tokens:**
+
+![SonarQube Token Generation](screenshots/02-sonarqube-token-generation.png)
 
 ### 3. Update sonar-project.properties
 
@@ -254,18 +240,9 @@ This starts 7 containers:
 | food-delivery-notification | custom Python | 5005 |
 | food-delivery-frontend | custom React | 3000 |
 
-**Screenshot — Docker Desktop showing all containers running:**
-```
-CONTAINER NAME                STATUS      PORTS
-food-delivery-frontend        Running     0.0.0.0:3000→3000
-food-delivery-gateway         Running     0.0.0.0:8081→8080
-food-delivery-user            Running     0.0.0.0:5001→5001
-food-delivery-restaurant      Running     0.0.0.0:5002→5002
-food-delivery-order           Running     0.0.0.0:5003→5003
-food-delivery-payment         Running     0.0.0.0:5004→5004
-food-delivery-notification    Running     0.0.0.0:5005→5005
-food-delivery-mongo           Running     0.0.0.0:27017→27017
-```
+**Docker Desktop — All containers running:**
+
+![Docker Containers Running](screenshots/03-docker-containers-running.png)
 
 ### Verify Services
 
@@ -275,22 +252,9 @@ docker-compose ps
 
 Open the application: **http://localhost:3000**
 
-**Screenshot — FoodExpress Home / Login Page:**
-```
-┌─────────────────────────────────────────────────────┐
-│  🍔 FoodExpress         v1.0.0 | DEBUG              │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│           Welcome to FoodExpress                    │
-│                                                     │
-│   Email:    [testuser@example.com          ]        │
-│   Password: [************************      ]        │
-│                                                     │
-│              [Login]   [Register]                   │
-│                                                     │
-└─────────────────────────────────────────────────────┘
-  URL: http://localhost:3000
-```
+**FoodExpress Login Page — http://localhost:3000:**
+
+![FoodExpress Login Page](screenshots/04-app-login-page.png)
 
 ---
 
@@ -318,21 +282,9 @@ This creates **4 restaurants** and **25 menu items**:
 | Pizza Roma | Italian | ₹250 | 4.5 ⭐ |
 | Burger Barn | American | ₹180 | 4.2 ⭐ |
 
-**Screenshot — Restaurant Listing Page:**
-```
-┌─────────────────────────────────────────────────────┐
-│  🍔 FoodExpress      Hello, Demo User   [Logout]    │
-├─────────────────────────────────────────────────────┤
-│  Restaurants Near You                               │
-│  ┌──────────────┐  ┌──────────────┐                │
-│  │ Spice Garden │  │  Dragon Wok  │                │
-│  │  Indian 🌶   │  │  Chinese 🥢  │                │
-│  │ Rating: 4.7  │  │ Rating: 4.4  │                │
-│  │ Min: ₹150    │  │ Min: ₹200    │                │
-│  │ [View Menu]  │  │ [View Menu]  │                │
-│  └──────────────┘  └──────────────┘                │
-└─────────────────────────────────────────────────────┘
-```
+**Restaurant Listing Page — after login:**
+
+![Restaurant Listing Page](screenshots/05-app-restaurant-list.png)
 
 ### Demo Login Credentials
 
@@ -362,57 +314,21 @@ docker run --rm --network host `
 
 > **Important:** Wrap each `-Dsonar.*` argument in quotes to prevent PowerShell from splitting them.
 
-**Screenshot — Scanner Output (Success):**
-```
-INFO: Scanner configuration file: /usr/src/sonar-project.properties
-INFO: Project root configuration file: /usr/src/sonar-project.properties
-INFO: Indexing files...
-INFO: 31 files indexed
-INFO: ------------- Run sensors on module Online Food Delivery System
-INFO: Sensor Python Sensor [python]
-INFO: Sensor JavaScript/TypeScript analysis [javascript]
-INFO: ------------- Run sensors on project
-INFO: SCM Publisher is disabled
-INFO: Quality Gate status: OK
-INFO: Analysis total time: 45.321 s
-INFO: EXECUTION SUCCESS
-```
+**SonarQube Scanner — successful execution in PowerShell:**
+
+![SonarQube Scanner Success](screenshots/06-sonarqube-scanner-success.png)
 
 ### View Results in SonarQube
 
 Open: **http://localhost:9000/dashboard?id=Food-Delivery-System**
 
-**Screenshot — SonarQube Project Dashboard:**
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Online Food Delivery System                 Quality Gate: ● OK  │
-├──────────────┬──────────────┬──────────────┬────────────────────┤
-│    Bugs      │Vulnerabilities│  Code Smells │ Security Hotspots  │
-│      8       │      0        │     60+      │        29          │
-│   ● E        │   ● A         │   ● D        │   0.0% reviewed    │
-└──────────────┴──────────────┴──────────────┴────────────────────┘
-```
+**SonarQube Project Dashboard — http://localhost:9000/dashboard?id=Food-Delivery-System:**
 
-**Screenshot — Security Hotspots Page:**
-```
-┌────────────────────────────────────────────────────────────────┐
-│  Security Hotspots  (29 to review)                             │
-├──────────────────────────────────────┬─────────────────────────┤
-│  Review Priority: HIGH               │  Status: TO REVIEW      │
-│  ■ Cross-Site Request Forgery  [5]   │                         │
-│    • notification-service/app.py     │  Make sure disabling    │
-│    • order-service/app.py            │  CSRF protection is     │
-│    • payment-service/app.py          │  safe here.             │
-│    • restaurant-service/app.py       │                         │
-│    • user-service/app.py             │  [Change status ▾]      │
-│                                      │                         │
-│  Review Priority: MEDIUM             │  Assignee: Not assigned │
-│  ■ Hardcoded Credentials      [8]    │                         │
-│  ■ Weak Hashing (MD5)         [2]    │                         │
-│  ■ Debug Mode Enabled         [5]    │                         │
-│  ■ Permission / COPY . in Docker[9] │                         │
-└──────────────────────────────────────┴─────────────────────────┘
-```
+![SonarQube Project Dashboard](screenshots/07-sonarqube-dashboard.png)
+
+**Security Hotspots Page — 29 hotspots to review:**
+
+![SonarQube Security Hotspots](screenshots/08-sonarqube-security-hotspots.png)
 
 ---
 
@@ -524,23 +440,13 @@ console.log(`Gateway Key: ${GATEWAY_API_KEY}`);
    - **Fixed** → code has been remediated
    - **Safe** → risk assessed and accepted (e.g., CSRF on JWT API)
 
-**Screenshot — Hotspot Detail View:**
-```
-┌──────────────────────────────────────────────────────────────────┐
-│  Make sure this weak hash algorithm is not used in a security    │
-│  context here.                                          python:S4790│
-│  Status: TO REVIEW                    [Change status ▾]          │
-├────────────────────────────────────────────────────────────────  │
-│  user-service/app.py                              [Open in IDE]  │
-│                                                                  │
-│  89  # CODE SMELL: Weak hashing algorithm                        │
-│  90  # (MD5 is insecure for passwords)                           │
-│  91► hashed = hashlib.md5(password.encode()).hexdigest()         │
-│  92                                                              │
-│  93  user = {                                                    │
-└──────────────────────────────────────────────────────────────────┘
-  Tabs: [Where is the risk?] [What's the risk?] [Assess] [How to fix]
-```
+**Hotspot Detail View — showing the MD5 weak hashing issue:**
+
+![SonarQube Hotspot Detail](screenshots/09-sonarqube-hotspot-detail.png)
+
+**Hotspot — CSRF protection review:**
+
+![SonarQube CSRF Hotspot](screenshots/10-sonarqube-csrf-hotspot.png)
 
 ---
 
