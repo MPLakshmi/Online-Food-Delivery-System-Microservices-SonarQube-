@@ -2,23 +2,6 @@
 
 > A microservices-based food delivery application intentionally built with **code smells, security vulnerabilities, and quality issues** for SonarQube static analysis demonstration.
 
----
-
-> ## ⚠️ DISCLAIMER
->
-> **This project is created strictly for educational and demonstration purposes.**
->
-> - All security vulnerabilities, hardcoded credentials, weak hashing algorithms, and other code issues present in this codebase are **intentional** and serve as training examples for SonarQube static code analysis.
-> - The hardcoded passwords, API keys, JWT secrets, and database credentials in this project are **fake, non-functional values** and do not grant access to any real system.
-> - **Do NOT deploy this application to any production or publicly accessible environment.** Doing so would expose known critical security vulnerabilities.
-> - **Do NOT use any code patterns from this project as a reference for real-world development.** This code deliberately violates security and quality best practices.
-> - The payment gateway keys (Stripe, Razorpay, PayPal, Paytm) included in this project are **test/fake keys** and cannot process real transactions.
-> - This project is intended for use only in isolated local or lab environments with no access to sensitive data or real users.
->
-> The authors accept no liability for any misuse of this codebase or damages arising from deploying it in an insecure manner.
-
----
-
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
@@ -189,7 +172,7 @@ Default credentials: `admin` / `admin` (you will be prompted to change the passw
 
 **SonarQube Login Page:**
 
-![SonarQube Login Page](screenshots/01-sonarqube-login.png)
+![SonarQube Login Page](screenshots/SonarQube-1.png)
 
 ### 2. Generate a SonarQube Token
 
@@ -201,7 +184,7 @@ Default credentials: `admin` / `admin` (you will be prompted to change the passw
 
 **Token Generation — My Account → Security → Generate Tokens:**
 
-![SonarQube Token Generation](screenshots/02-sonarqube-token-generation.png)
+![SonarQube Token Generation](screenshots/SonarQube-1.png)
 
 ### 3. Update sonar-project.properties
 
@@ -242,7 +225,7 @@ This starts 7 containers:
 
 **Docker Desktop — All containers running:**
 
-![Docker Containers Running](screenshots/03-docker-containers-running.png)
+![Docker Containers Running](screenshots/FoodService-App.png)
 
 ### Verify Services
 
@@ -254,7 +237,7 @@ Open the application: **http://localhost:3000**
 
 **FoodExpress Login Page — http://localhost:3000:**
 
-![FoodExpress Login Page](screenshots/04-app-login-page.png)
+![FoodExpress Login Page](screenshots/FoodService-App.png)
 
 ---
 
@@ -284,7 +267,7 @@ This creates **4 restaurants** and **25 menu items**:
 
 **Restaurant Listing Page — after login:**
 
-![Restaurant Listing Page](screenshots/05-app-restaurant-list.png)
+![Restaurant Listing Page](screenshots/FoodService-App.png)
 
 ### Demo Login Credentials
 
@@ -316,7 +299,7 @@ docker run --rm --network host `
 
 **SonarQube Scanner — successful execution in PowerShell:**
 
-![SonarQube Scanner Success](screenshots/06-sonarqube-scanner-success.png)
+![SonarQube Scanner Success](screenshots/SonarQube-1.png)
 
 ### View Results in SonarQube
 
@@ -324,11 +307,11 @@ Open: **http://localhost:9000/dashboard?id=Food-Delivery-System**
 
 **SonarQube Project Dashboard — http://localhost:9000/dashboard?id=Food-Delivery-System:**
 
-![SonarQube Project Dashboard](screenshots/07-sonarqube-dashboard.png)
+![SonarQube Project Dashboard](screenshots/SonarQube-1.png)
 
 **Security Hotspots Page — 29 hotspots to review:**
 
-![SonarQube Security Hotspots](screenshots/08-sonarqube-security-hotspots.png)
+![SonarQube Security Hotspots](screenshots/SonarQube-Hotspots.png)
 
 ---
 
@@ -442,11 +425,7 @@ console.log(`Gateway Key: ${GATEWAY_API_KEY}`);
 
 **Hotspot Detail View — showing the MD5 weak hashing issue:**
 
-![SonarQube Hotspot Detail](screenshots/09-sonarqube-hotspot-detail.png)
-
-**Hotspot — CSRF protection review:**
-
-![SonarQube CSRF Hotspot](screenshots/10-sonarqube-csrf-hotspot.png)
+![SonarQube Hotspot Detail](screenshots/SonarQube-Hotspots.png)
 
 ---
 
