@@ -223,10 +223,6 @@ This starts 7 containers:
 | food-delivery-notification | custom Python | 5005 |
 | food-delivery-frontend | custom React | 3000 |
 
-**Docker Desktop — All containers running:**
-
-![Docker Containers Running](screenshots/FoodService-App.png)
-
 ### Verify Services
 
 ```powershell
@@ -296,10 +292,6 @@ docker run --rm --network host `
 ```
 
 > **Important:** Wrap each `-Dsonar.*` argument in quotes to prevent PowerShell from splitting them.
-
-**SonarQube Scanner — successful execution in PowerShell:**
-
-![SonarQube Scanner Success](screenshots/SonarQube-1.png)
 
 ### View Results in SonarQube
 
