@@ -1,0 +1,336 @@
+{
+  "info": {
+    "_postman_id": "food-delivery-api-collection",
+    "name": "Food Delivery System API",
+    "description": "Complete API collection for testing the Online Food Delivery System microservices",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8080/api", "type": "string" },
+    { "key": "token", "value": "", "type": "string" },
+    { "key": "user_id", "value": "", "type": "string" },
+    { "key": "restaurant_id", "value": "", "type": "string" },
+    { "key": "order_id", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "1. User Service",
+      "item": [
+        {
+          "name": "Register User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var resp = pm.response.json();",
+                  "if (resp.token) { pm.collectionVariables.set('token', resp.token); }",
+                  "if (resp.user_id) { pm.collectionVariables.set('user_id', resp.user_id); }",
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"Password@123\",\n  \"phone\": \"9876543210\",\n  \"address\": \"123 MG Road, Bangalore\",\n  \"role\": \"customer\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/users/register", "host": ["{{base_url}}"], "path": ["users", "register"] }
+          }
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var resp = pm.response.json();",
+                  "if (resp.token) { pm.collectionVariables.set('token', resp.token); }",
+                  "if (resp.user_id) { pm.collectionVariables.set('user_id', resp.user_id); }",
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Token exists', () => pm.expect(resp.token).to.not.be.undefined);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"Password@123\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/users/login", "host": ["{{base_url}}"], "path": ["users", "login"] }
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/users/profile/{{user_id}}", "host": ["{{base_url}}"], "path": ["users", "profile", "{{user_id}}"] }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Updated\",\n  \"phone\": \"9123456789\",\n  \"address\": \"456 Brigade Road, Bangalore\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/users/update-profile", "host": ["{{base_url}}"], "path": ["users", "update-profile"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Restaurant Service",
+      "item": [
+        {
+          "name": "Get All Restaurants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/restaurants/restaurants", "host": ["{{base_url}}"], "path": ["restaurants", "restaurants"] }
+          }
+        },
+        {
+          "name": "Add Restaurant",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var resp = pm.response.json();",
+                  "if (resp.restaurant_id) { pm.collectionVariables.set('restaurant_id', resp.restaurant_id); }",
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Spice Garden\",\n  \"email\": \"spicegarden@restaurant.com\",\n  \"cuisine\": \"Indian\",\n  \"address\": \"789 Koramangala, Bangalore\",\n  \"phone\": \"0801234567\",\n  \"opening_time\": \"10:00\",\n  \"closing_time\": \"23:00\",\n  \"minimum_order\": 150,\n  \"delivery_radius\": 8\n}"
+            },
+            "url": { "raw": "{{base_url}}/restaurants/restaurant/add", "host": ["{{base_url}}"], "path": ["restaurants", "restaurant", "add"] }
+          }
+        },
+        {
+          "name": "Add Menu Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurant_id\": \"{{restaurant_id}}\",\n  \"name\": \"Butter Chicken\",\n  \"description\": \"Creamy tomato-based chicken curry\",\n  \"price\": 320,\n  \"category\": \"Main Course\",\n  \"preparation_time\": 25,\n  \"is_vegetarian\": false,\n  \"spice_level\": \"medium\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/restaurants/menu/add", "host": ["{{base_url}}"], "path": ["restaurants", "menu", "add"] }
+          }
+        },
+        {
+          "name": "Get Restaurant Menu",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/restaurants/menu/{{restaurant_id}}", "host": ["{{base_url}}"], "path": ["restaurants", "menu", "{{restaurant_id}}"] }
+          }
+        },
+        {
+          "name": "Get Restaurant Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/restaurants/restaurant/{{restaurant_id}}", "host": ["{{base_url}}"], "path": ["restaurants", "restaurant", "{{restaurant_id}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Order Service",
+      "item": [
+        {
+          "name": "Place Order (COD)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var resp = pm.response.json();",
+                  "if (resp.order_id) { pm.collectionVariables.set('order_id', resp.order_id); }",
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurant_id\": \"{{restaurant_id}}\",\n  \"items\": [\n    { \"item_id\": \"item001\", \"name\": \"Butter Chicken\", \"price\": 320, \"quantity\": 2 },\n    { \"item_id\": \"item002\", \"name\": \"Garlic Naan\", \"price\": 60, \"quantity\": 4 }\n  ],\n  \"payment_method\": \"cod\",\n  \"delivery_address\": \"123 MG Road, Indiranagar, Bangalore - 560038\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/orders/order/place", "host": ["{{base_url}}"], "path": ["orders", "order", "place"] }
+          }
+        },
+        {
+          "name": "Place Order (Card)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurant_id\": \"{{restaurant_id}}\",\n  \"items\": [\n    { \"item_id\": \"item001\", \"name\": \"Paneer Tikka\", \"price\": 280, \"quantity\": 1 }\n  ],\n  \"payment_method\": \"card\",\n  \"delivery_address\": \"456 Brigade Road, Bangalore - 560001\",\n  \"card_number\": \"4111111111111111\",\n  \"cvv\": \"123\",\n  \"expiry\": \"12/26\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/orders/order/place", "host": ["{{base_url}}"], "path": ["orders", "order", "place"] }
+          }
+        },
+        {
+          "name": "Place Order (UPI)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"restaurant_id\": \"{{restaurant_id}}\",\n  \"items\": [\n    { \"item_id\": \"item003\", \"name\": \"Biryani\", \"price\": 350, \"quantity\": 1 }\n  ],\n  \"payment_method\": \"upi\",\n  \"delivery_address\": \"789 Koramangala, Bangalore - 560034\",\n  \"upi_id\": \"john@upi\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/orders/order/place", "host": ["{{base_url}}"], "path": ["orders", "order", "place"] }
+          }
+        },
+        {
+          "name": "Get Order Details",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/orders/order/{{order_id}}", "host": ["{{base_url}}"], "path": ["orders", "order", "{{order_id}}"] }
+          }
+        },
+        {
+          "name": "Get User Order History",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/orders/orders/user/{{user_id}}", "host": ["{{base_url}}"], "path": ["orders", "orders", "user", "{{user_id}}"] }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/orders/order/cancel/{{order_id}}", "host": ["{{base_url}}"], "path": ["orders", "order", "cancel", "{{order_id}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Payment Service",
+      "item": [
+        {
+          "name": "Process Payment",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"{{order_id}}\",\n  \"amount\": 950.00,\n  \"payment_method\": \"upi\",\n  \"user_id\": \"{{user_id}}\",\n  \"upi_id\": \"john@upi\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/payments/process", "host": ["{{base_url}}"], "path": ["payments", "process"] }
+          }
+        },
+        {
+          "name": "Get Payment Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{base_url}}/payments/payment/{{order_id}}", "host": ["{{base_url}}"], "path": ["payments", "payment", "{{order_id}}"] }
+          }
+        },
+        {
+          "name": "Process Refund",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": \"{{order_id}}\",\n  \"amount\": 950.00,\n  \"reason\": \"Customer requested cancellation\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/payments/refund", "host": ["{{base_url}}"], "path": ["payments", "refund"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Notification Service",
+      "item": [
+        {
+          "name": "Send Email Notification",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"email\",\n  \"email\": \"john.doe@example.com\",\n  \"subject\": \"Order Confirmed!\",\n  \"message\": \"Your order has been confirmed and will arrive in 30-45 minutes.\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/notifications/notify", "host": ["{{base_url}}"], "path": ["notifications", "notify"] }
+          }
+        },
+        {
+          "name": "Send SMS Notification",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"sms\",\n  \"phone\": \"9876543210\",\n  \"message\": \"Your FoodExpress order #12345 is on its way!\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/notifications/notify", "host": ["{{base_url}}"], "path": ["notifications", "notify"] }
+          }
+        },
+        {
+          "name": "Send Push Notification",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"push\",\n  \"user_id\": \"{{user_id}}\",\n  \"message\": \"Your order is out for delivery! ETA: 15 minutes.\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/notifications/notify", "host": ["{{base_url}}"], "path": ["notifications", "notify"] }
+          }
+        },
+        {
+          "name": "Get User Notifications",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/notifications/notifications/{{user_id}}", "host": ["{{base_url}}"], "path": ["notifications", "notifications", "{{user_id}}"] }
+          }
+        }
+      ]
+    }
+  ]
+}

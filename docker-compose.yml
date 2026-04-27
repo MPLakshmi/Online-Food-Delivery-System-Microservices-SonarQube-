@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: food-delivery-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      # CODE SMELL: Hardcoded credentials in docker-compose
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+    volumes:
+      - mongo_data:/data/db
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: food-delivery-gateway
+    ports:
+      - "8081:8080"
+    depends_on:
+      - user-service
+      - restaurant-service
+      - order-service
+      - payment-service
+      - notification-service
+    environment:
+      NODE_ENV: production
+      USER_SERVICE_URL: http://food-delivery-user:5001
+      RESTAURANT_SERVICE_URL: http://food-delivery-restaurant:5002
+      ORDER_SERVICE_URL: http://food-delivery-order:5003
+      PAYMENT_SERVICE_URL: http://food-delivery-payment:5004
+      NOTIFICATION_SERVICE_URL: http://food-delivery-notification:5005
+
+  user-service:
+    build: ./user-service
+    container_name: food-delivery-user
+    ports:
+      - "5001:5001"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/
+
+  restaurant-service:
+    build: ./restaurant-service
+    container_name: food-delivery-restaurant
+    ports:
+      - "5002:5002"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/
+
+  order-service:
+    build: ./order-service
+    container_name: food-delivery-order
+    ports:
+      - "5003:5003"
+    depends_on:
+      - mongodb
+      - payment-service
+      - notification-service
+    environment:
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/
+      PAYMENT_SERVICE_URL: http://food-delivery-payment:5004
+      NOTIFICATION_SERVICE_URL: http://food-delivery-notification:5005
+
+  payment-service:
+    build: ./payment-service
+    container_name: food-delivery-payment
+    ports:
+      - "5004:5004"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/
+
+  notification-service:
+    build: ./notification-service
+    container_name: food-delivery-notification
+    ports:
+      - "5005:5005"
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI: mongodb://admin:password123@mongodb:27017/
+
+  frontend:
+    build: ./frontend
+    container_name: food-delivery-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway
+
+volumes:
+  mongo_data:
